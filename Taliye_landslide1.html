@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Taliye Landslide - Before & After</title>
+    <style>
+        body {
+            margin: 0;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #f0f0f0;
+        }
+
+        .main-container {
+            display: flex;
+            width: 90%;
+            max-width: 1200px;
+            height: 90vh;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .container {
+            position: relative;
+            flex: 1;
+            height: 100%;
+            overflow: hidden;
+            cursor: grab;
+        }
+
+        .image-container {
+            position: relative;
+            height: 100%;
+            width: 100%;
+        }
+
+        .image1, .image2 {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .image2 {
+            clip-path: inset(100% 0 0 0);
+            transition: clip-path 0.1s ease-out;
+        }
+
+        .slider-bar {
+            position: absolute;
+            top: 0;
+            left: 50%;
+            width: 100%;
+            height: 2px;
+            background-color: red;
+            transform: translateX(-50%);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .label {
+            position: absolute;
+            font-weight: bold;
+            transition: opacity 0.3s ease;
+            left: 10px;
+            opacity: 0;
+        }
+
+        .label.before {
+            color: blue;
+        }
+
+        .label.after {
+            color: red;
+        }
+
+        .writeup {
+            width: 400px;
+            max-height: 100%;
+            overflow-y: auto;
+            padding: 20px;
+            background-color: white;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            border-radius: 8px;
+        }
+
+        .writeup h2 {
+            margin-top: 0;
+        }
+
+        @media only screen and (max-width: 768px) {
+            .main-container {
+                flex-direction: column;
+                height: auto;
+            }
+            .writeup {
+                width: 100%;
+                max-width: none;
+                margin-top: 20px;
+            }
+            .container {
+                height: 300px;
+            }
+        }
+
+        @media only screen and (max-width: 480px) {
+            .writeup {
+                padding: 15px;
+            }
+            .main-container {
+                gap: 10px;
+            }
+            .container {
+                height: 250px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="main-container">
+        <div class="container" aria-label="Before and After Image Comparison">
+            <div class="image-container">
+                <img src=".\taliye_after.jpg" alt="After the landslide in Taliye" class="image1">
+                <img src=".\taliye_before.jpg" alt="Before the landslide in Taliye" class="image2">
+                <div class="slider-bar"></div>
+                <div class="label before">Before</div>
+                <div class="label after">After</div>
+            </div>
+        </div>
+        <div class="writeup">
+            <h2>Taliye Landslide (Raigad, Maharashtra)</h2>
+            <p>A devastating landslide hit Taliye village in Raigad district, Maharashtra, following heavy monsoon rainfall. The disaster buried several homes and caused significant loss of life.</p>
+            <ul>
+                <li>Over 80 people lost their lives.</li>
+                <li>Dozens of houses were completely buried under debris.</li>
+                <li>The landslide was triggered by incessant rainfall over the Western Ghats.</li>
+            </ul>
+            <h3>How It Works</h3>
+            <p>Scroll or drag up/down to gradually reveal the "After" image, showcasing the post-landslide impact.</p>
+        </div>
+    </div>
+</body>
+</html>
