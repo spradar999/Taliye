@@ -19,6 +19,7 @@
 
         .wrapper {
             display: flex;
+            flex-direction: row;
             width: 90%;
             max-width: 1200px;
             align-items: center;
@@ -29,6 +30,7 @@
             width: 50%;
             height: 80vh;
             overflow: hidden;
+            touch-action: none; /* Prevent default touch scrolling */
         }
 
         .image-container {
@@ -89,6 +91,23 @@
         h2, h3 {
             color: #ffcc00;
         }
+
+        /* Responsive for Mobile */
+        @media (max-width: 768px) {
+            .wrapper {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .container {
+                width: 100%;
+                height: 50vh;
+            }
+
+            .text-content {
+                width: 100%;
+            }
+        }
     </style>
 </head>
 <body>
@@ -112,12 +131,13 @@
                 <li>The landslide was triggered by incessant rainfall over the Western Ghats.</li>
             </ul>
             <h3>How It Works</h3>
-            <p>Scroll up/down to gradually reveal the "After" image, showcasing the post-landslide impact.</p>
+            <p>Scroll up/down or swipe up/down to gradually reveal the "After" image.</p>
         </div>
     </div>
 
     <script>
         let position = 0;
+        let startY = 0; 
 
         function updateClipPath() {
             const image2 = document.querySelector('.image2');
@@ -157,6 +177,27 @@
 
             position = Math.max(0, Math.min(position, 100));
             updateClipPath();
+        });
+
+        // Touch Events for Mobile
+        document.addEventListener('touchstart', (event) => {
+            startY = event.touches[0].clientY;
+        });
+
+        document.addEventListener('touchmove', (event) => {
+            event.preventDefault();
+            let moveY = event.touches[0].clientY;
+            let diff = startY - moveY;
+
+            if (diff > 0) {
+                position += 2; // Swipe Up
+            } else {
+                position -= 2; // Swipe Down
+            }
+
+            position = Math.max(0, Math.min(position, 100));
+            updateClipPath();
+            startY = moveY;
         });
 
         updateClipPath();
