@@ -3,37 +3,38 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Vertical Scroll Horizontal Slider</title>
+    <title>Taliye Landslide - Before & After</title>
     <style>
         body {
             margin: 0;
-            height: 100vh;
+            font-family: Arial, sans-serif;
+            background-color: #111;
+            color: white;
             display: flex;
             justify-content: center;
             align-items: center;
-            background-color: #f0f0f0;
-            padding: 20px;
-            box-sizing: border-box;
+            height: 100vh;
+            overflow: hidden;
         }
 
-        .content {
+        .wrapper {
             display: flex;
+            width: 90%;
             max-width: 1200px;
-            gap: 20px;
             align-items: center;
         }
 
         .container {
             position: relative;
-            width: 800px;
-            height: 1200px;
+            width: 50%;
+            height: 80vh;
             overflow: hidden;
         }
 
         .image-container {
             position: relative;
-            height: 100%;
             width: 100%;
+            height: 100%;
         }
 
         .image1, .image2 {
@@ -46,7 +47,7 @@
         }
 
         .image2 {
-            clip-path: inset(100% 0 0 0);
+            clip-path: inset(100% 0 0 0); /* Initially hidden */
         }
 
         .slider-bar {
@@ -54,8 +55,8 @@
             top: 0;
             left: 50%;
             width: 100%;
-            height: 1px;
-            background-color: red;
+            height: 2px;
+            background-color: white;
             transform: translateX(-50%);
             opacity: 0;
             transition: opacity 0.3s ease;
@@ -67,38 +68,42 @@
             transition: opacity 0.3s ease;
             left: 10px;
             opacity: 0;
-            background-color: white;
-            padding: 5px;
+            background-color: rgba(0, 0, 0, 0.6);
+            padding: 5px 10px;
             border-radius: 5px;
         }
 
         .label.before {
-            color: blue;
+            color: white;
         }
 
         .label.after {
-            color: red;
+            color: white;
         }
 
-        .text-column {
-            width: 400px;
-            position: relative;
-            top: 50px;
+        .text-content {
+            width: 50%;
+            padding: 20px;
+        }
+
+        h2, h3 {
+            color: #ffcc00;
         }
     </style>
 </head>
 <body>
-    <div class="content">
+    <div class="wrapper">
         <div class="container">
             <div class="image-container">
-                <img src="taliye_post.jpg" alt="Image 1" class="image1">
-                <img src="taliye_pre.jpg" alt="Image 2" class="image2">
+                <img src="taliye_post.jpg" alt="Before Landslide" class="image1">
+                <img src="taliye_pre.jpg" alt="After Landslide" class="image2">
                 <div class="slider-bar"></div>
                 <div class="label before">Before</div>
                 <div class="label after">After</div>
             </div>
         </div>
-        <div class="text-column">
+
+        <div class="text-content">
             <h2>Taliye Landslide (Raigad, Maharashtra)</h2>
             <p>A devastating landslide hit Taliye village in Raigad district, Maharashtra, following heavy monsoon rainfall. The disaster buried several homes and caused significant loss of life.</p>
             <ul>
@@ -107,9 +112,10 @@
                 <li>The landslide was triggered by incessant rainfall over the Western Ghats.</li>
             </ul>
             <h3>How It Works</h3>
-            <p>Scroll or drag up/down to gradually reveal the "After" image, showcasing the post-landslide impact.</p>
+            <p>Scroll up/down to gradually reveal the "After" image, showcasing the post-landslide impact.</p>
         </div>
     </div>
+
     <script>
         let position = 0;
 
@@ -140,13 +146,15 @@
             beforeLabel.style.top = `${(position / 100) * containerHeight + 10}px`;
         }
 
-        window.addEventListener('wheel', (event) => {
+        document.addEventListener('wheel', (event) => {
             event.preventDefault();
+
             if (event.deltaY > 0) {
                 position += 2;
             } else {
                 position -= 2;
             }
+
             position = Math.max(0, Math.min(position, 100));
             updateClipPath();
         });
