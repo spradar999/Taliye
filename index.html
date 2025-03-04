@@ -201,11 +201,12 @@
             let moveY = event.touches[0].clientY;
             let diff = startY - moveY;
 
-            if (diff > 0) {
-                position += 2;
-            } else {
-                position -= 2;
-            }
+            if (diff < 0) {  
+                position += 2; // Swipe Down (should reveal more of Before)  
+                    } 
+            else {  
+                position -= 2; // Swipe Up (should reveal more of After)  
+                    }
 
             position = Math.max(0, Math.min(position, 100));
             updateClipPath();
