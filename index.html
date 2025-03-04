@@ -54,50 +54,60 @@
 
         .slider-bar {
             position: absolute;
-            top: 50%;
-            left: 0;
+            top: 0;
+            left: 50%;
             width: 100%;
             height: 2px;
             background-color: white;
-            transform: translateY(-50%);
-            opacity: 1;
+            transform: translateX(-50%);
+            opacity: 0;
+            transition: opacity 0.3s ease;
         }
 
         .label {
             position: absolute;
             font-weight: bold;
+            transition: opacity 0.3s ease;
+            left: 10px;
+            opacity: 0;
             background-color: rgba(0, 0, 0, 0.6);
             padding: 5px 10px;
             border-radius: 5px;
-            color: white;
         }
 
         .label.before {
-            left: 10px;
+            color: white;
+            top: 10px;
         }
 
         .label.after {
-            left: 10px;
+            color: white;
+            bottom: 10px;
         }
 
         .text-content {
             width: 50%;
+            max-height: 80vh;
+            overflow-y: auto;
             padding: 20px;
         }
 
         h2 {
             text-align: justify;
-            color: #ffcc00;
         }
+
+        p, ul {
+            text-align: justify;
         }
 
         ul {
+            list-style-position: inside;
             text-align: left;
-            padding-left: 20px;
         }
 
-        p {
-            text-align: justify;
+        h3 {
+            color: #ffcc00;
+            text-align: left;
         }
 
         @media (max-width: 768px) {
@@ -113,6 +123,7 @@
 
             .text-content {
                 width: 100%;
+                max-height: 40vh;
             }
         }
     </style>
@@ -124,8 +135,8 @@
                 <img src="taliye_post.jpg" alt="Before Landslide" class="image1">
                 <img src="taliye_pre.jpg" alt="After Landslide" class="image2">
                 <div class="slider-bar"></div>
-                <div class="label before">After</div>
-                <div class="label after">Before</div>
+                <div class="label before">Before</div>
+                <div class="label after">After</div>
             </div>
         </div>
 
@@ -149,23 +160,34 @@
         function updateClipPath() {
             const image2 = document.querySelector('.image2');
             const sliderBar = document.querySelector('.slider-bar');
-            const beforeLabel = document.querySelector('.label.before');
-            const afterLabel = document.querySelector('.label.after');
             const container = document.querySelector('.container');
             const containerHeight = container.offsetHeight;
 
             image2.style.clipPath = `inset(${position}% 0 0 0)`;
 
-            sliderBar.style.top = `${position}%`;
-            beforeLabel.style.top = `${position - 5}%`;
-            afterLabel.style.top = `${position + 5}%`;
+            if (position > 5) {
+                sliderBar.style.opacity = '1';
+                document.querySelector('.label.before').style.opacity = '1';
+                document.querySelector('.label.after').style.opacity = '1';
+            } else {
+                sliderBar.style.opacity = '0';
+                document.querySelector('.label.before').style.opacity = '0';
+                document.querySelector('.label.after').style.opacity = '0';
+            }
 
-            position = Math.max(0, Math.min(position, 100));
+            sliderBar.style.top = `${position}%`;
         }
 
         document.addEventListener('wheel', (event) => {
             event.preventDefault();
-            position += event.deltaY > 0 ? 2 : -2;
+
+            if (event.deltaY > 0) {
+                position += 2;
+            } else {
+                position -= 2;
+            }
+
+            position = Math.max(0, Math.min(position, 100));
             updateClipPath();
         });
 
@@ -177,7 +199,14 @@
             event.preventDefault();
             let moveY = event.touches[0].clientY;
             let diff = startY - moveY;
-            position += diff > 0 ? 2 : -2;
+
+            if (diff > 0) {
+                position += 2;
+            } else {
+                position -= 2;
+            }
+
+            position = Math.max(0, Math.min(position, 100));
             updateClipPath();
             startY = moveY;
         });
