@@ -169,7 +169,7 @@
         document.addEventListener('wheel', (event) => {
             event.preventDefault();
 
-            if (event.deltaY < 0) {
+            if (event.deltaY > 0) {
                 position += 2;
             } else {
                 position -= 2;
@@ -187,12 +187,12 @@
         document.addEventListener('touchmove', (event) => {
             event.preventDefault();
             let moveY = event.touches[0].clientY;
-            let diff = moveY - startY; // Corrected direction
+            let diff = moveY - startY; 
 
-            if (diff > 0) {
-                position -= 2; // Swipe Down
-            } else {
+            if (diff < 0) {
                 position += 2; // Swipe Up
+            } else {
+                position -= 2; // Swipe Down
             }
 
             position = Math.max(0, Math.min(position, 100));
