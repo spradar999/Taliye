@@ -94,7 +94,7 @@
 
         h2 {
             color: #ffcc00;
-            text-align: centre;
+            text-align: center; /* Fixed spelling */
         }
 
         p, ul {
@@ -102,7 +102,7 @@
         }
 
         ul {
-         <!-- list-style-position: inside; -->
+            list-style-position: inside; /* Fixed CSS comment issue */
             text-align: justify;
         }
 
@@ -133,16 +133,16 @@
     <div class="wrapper">
         <div class="container">
             <div class="image-container">
-                <img src="taliye_post.jpg" alt="Before Landslide" class="image1">
-                <img src="taliye_pre.jpg" alt="After Landslide" class="image2">
+                <img src="taliye_pre.jpg" alt="Before Landslide" class="image1">
+                <img src="taliye_post.jpg" alt="After Landslide" class="image2">
                 <div class="slider-bar"></div>
-                <div class="label before">After (Cartosat-2  24 July 2021) </div>
-                <div class="label after">Before (Cartosat-2 19 July 2021)</div>
+                <div class="label before">Before (Cartosat-2 19 July 2021)</div> <!-- Fixed swapped labels -->
+                <div class="label after">After (Cartosat-2 24 July 2021)</div> <!-- Fixed swapped labels -->
             </div>
         </div>
 
         <div class="text-content">
-            <p>(Swipe up or down to see the visulaization)</p>
+            <p>(Swipe up or down to see the visualization)</p>
             <h3>Taliye Landslide (Raigad, Maharashtra)</h3>
             <p>A devastating landslide hit Taliye village in Raigad district, Maharashtra on July 22, 2021.
             ISRO obtained satellite images of this region and made the following observations.</p>
@@ -162,7 +162,6 @@
             const image2 = document.querySelector('.image2');
             const sliderBar = document.querySelector('.slider-bar');
             const container = document.querySelector('.container');
-            const containerHeight = container.offsetHeight;
 
             image2.style.clipPath = `inset(${position}% 0 0 0)`;
 
@@ -182,12 +181,7 @@
         document.addEventListener('wheel', (event) => {
             event.preventDefault();
 
-            if (event.deltaY > 0) {
-                position += 2;
-            } else {
-                position -= 2;
-            }
-
+            position += event.deltaY > 0 ? 2 : -2;
             position = Math.max(0, Math.min(position, 100));
             updateClipPath();
         });
@@ -199,15 +193,7 @@
         document.addEventListener('touchmove', (event) => {
             event.preventDefault();
             let moveY = event.touches[0].clientY;
-            let diff = startY - moveY;
-
-            if (diff < 0) {  
-                position += 2; // Swipe Down (should reveal more of Before)  
-                    } 
-            else {  
-                position -= 2; // Swipe Up (should reveal more of After)  
-                    }
-
+            position += (startY - moveY) < 0 ? 2 : -2;
             position = Math.max(0, Math.min(position, 100));
             updateClipPath();
             startY = moveY;
