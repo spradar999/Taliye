@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Taliye Landslide - Before & After</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: #111;
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        .wrapper {
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+            max-width: 1200px;
+            align-items: center;
+            text-align: center;
+        }
+
+        .container {
+            position: relative;
+            width: 100%;
+            max-width: 600px;
+            height: 50vh;
+            overflow: hidden;
+            touch-action: none;
+        }
+
+        .image-container {
+            position: relative;
+            width: 100%;
+            height: 100%;
+        }
+
+        .image1, .image2 {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .image2 {
+            clip-path: inset(100% 0 0 0);
+        }
+
+        .slider-bar {
+            position: absolute;
+            top: 50%;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background-color: white;
+            transform: translateY(-50%);
+            opacity: 1;
+        }
+
+        .label {
+            position: absolute;
+            font-weight: bold;
+            background-color: rgba(0, 0, 0, 0.6);
+            padding: 5px 10px;
+            border-radius: 5px;
+        }
+
+        .label.before {
+            color: white;
+            top: 10px;
+            left: 10px;
+        }
+
+        .label.after {
+            color: white;
+            bottom: 10px;
+            left: 10px;
+        }
+
+        .text-content {
+            width: 100%;
+            max-width: 600px;
+            padding: 20px;
+            text-align: justify;
+        }
+
+        h3 {
+            color: #ffcc00;
+        }
+
+        ul {
+            padding-left: 20px;
+            list-style-position: outside;
+        }
+
+        @media (min-width: 768px) {
+            .wrapper {
+                flex-direction: row;
+                justify-content: center;
+                text-align: left;
+            }
+            .container, .text-content {
+                width: 50%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="wrapper">
+        <div class="text-content">
+            <h3>Taliye Landslide (Raigad, Maharashtra)</h3>
+            <p>ISRO obtained satellite images of this region and made the following observations.</p>
+            <p>A devastating landslide hit Taliye village in Raigad district, Maharashtra on July 22, 2021</p>
+            <ul>
+                <li>Over 80 people lost their lives.</li>
+                <li>Dozens of houses were completely buried under debris.</li>
+                <li>The landslide was triggered by incessant rainfall over the Western Ghats.</li>
+            </ul>
+            <p>(Swipe up or down to see the visualization)</p>
+        </div>
+
+        <div class="container">
+            <div class="image-container">
+                <img src="taliye_post.jpg" alt="Before Landslide" class="image1">
+                <img src="taliye_pre.jpg" alt="After Landslide" class="image2">
+                <div class="slider-bar"></div>
+                <div class="label before">After (Cartosat-2 July 24, 2021)</div>
+                <div class="label after">Before (Cartosat-2 July 19, 2021)</div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let position = 100;
+        let startY = 0;
+
+        function updateClipPath() {
+            const image2 = document.querySelector('.image2');
+            const sliderBar = document.querySelector('.slider-bar');
+            image2.style.clipPath = `inset(${position}% 0 0 0)`;
+            sliderBar.style.top = `${position}%`;
+        }
+
+        document.querySelector('.container').addEventListener('wheel', (event) => {
+            event.preventDefault();
+            position += event.deltaY > 0 ? 5 : -5;
+            position = Math.max(0, Math.min(100, position));
+            updateClipPath();
+        });
+
+        document.querySelector('.container').addEventListener('touchstart', (event) => {
+            startY = event.touches[0].clientY;
+        });
+
+        document.querySelector('.container').addEventListener('touchmove', (event) => {
+            event.preventDefault();
+            let moveY = event.touches[0].clientY;
+            position += startY > moveY ? -3 : 3;
+            position = Math.max(0, Math.min(100, position));
+            updateClipPath();
+            startY = moveY;
+        });
+
+        updateClipPath();
+    </script>
+</body>
+</html>
