@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Taliye Landslide - Before & After</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: #111;
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        .wrapper {
+            display: flex;
+            flex-direction: row;
+            width: 90%;
+            max-width: 1200px;
+            align-items: center;
+        }
+
+        .container {
+            position: relative;
+            width: 50%;
+            height: 80vh;
+            overflow: hidden;
+            touch-action: none;
+        }
+
+        .image-container {
+            position: relative;
+            width: 100%;
+            height: 100%;
+        }
+
+        .image1, .image2 {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .image2 {
+            clip-path: inset(100% 0 0 0);
+        }
+
+        .slider-bar {
+            position: absolute;
+            top: 0;
+            left: 50%;
+            width: 100%;
+            height: 2px;
+            background-color: white;
+            transform: translateX(-50%);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .label {
+            position: absolute;
+            font-weight: bold;
+            transition: opacity 0.3s ease;
+            left: 10px;
+            opacity: 0;
+            background-color: rgba(0, 0, 0, 0.6);
+            padding: 5px 10px;
+            border-radius: 5px;
+        }
+
+        .label.before {
+            color: white;
+            top: 10px;
+        }
+
+        .label.after {
+            color: white;
+            bottom: 10px;
+        }
+
+        .text-content {
+            width: 50%;
+            max-height: 80vh;
+            overflow-y: auto;
+            padding: 20px;
+        }
+
+        h2 {
+            color: #ffcc00;
+            text-align: center; /* Fixed spelling */
+        }
+
+        p, ul {
+            text-align: justify;
+        }
+
+        ul {
+            text-align: left; /* Aligns text fully to the left */
+    padding-left: 20px; /* Ensures bullet points are correctly indented */
+    list-style-position: outside;
+        }
+
+        h3 {
+            color: #ffcc00;
+            text-align: left;
+        }
+
+        @media (max-width: 768px) {
+            .wrapper {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .container {
+                width: 100%;
+                height: 50vh;
+            }
+
+            .text-content {
+                width: 100%;
+                max-height: 40vh;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="wrapper">
+        <div class="container">
+            <h3 class="title">Taliye Landslide (Raigad, Maharashtra)</h3>
+            <p>.</p>
+			<!-- Moved title above images -->
+            <div class="image-container">
+                <img src="taliye_post.jpg" alt="Before Landslide" class="image1">
+                <img src="taliye_pre.jpg" alt="After Landslide" class="image2">
+                <div class="slider-bar"></div>
+                <div class="label before">After (Cartosat-2 24 July 2021)</div>
+                <div class="label after">Before (Cartosat-2 19 July 2021))</div>
+            </div>
+        </div>
+
+        <div class="text-content">
+            <p>(Swipe up or down to see the visualization)</p>
+            <p>A devastating landslide hit Taliye village in Raigad district, Maharashtra on July 22, 2021.
+            </p>
+            <ul>
+                <li>Over 80 people lost their lives.</li>
+                <li>Dozens of houses were completely buried under debris.</li>
+                <li>The landslide was triggered by incessant rainfall over the Western Ghats.</li>
+            </ul>
+        </div>
+    </div>
+
+    <script>
+        let position = 0;
+        let startY = 0;
+
+        function updateClipPath() {
+            const image2 = document.querySelector('.image2');
+            const sliderBar = document.querySelector('.slider-bar');
+            const container = document.querySelector('.container');
+
+            image2.style.clipPath = `inset(${position}% 0 0 0)`;
+
+            if (position > 5) {
+                sliderBar.style.opacity = '1';
+                document.querySelector('.label.before').style.opacity = '1';
+                document.querySelector('.label.after').style.opacity = '1';
+            } else {
+                sliderBar.style.opacity = '0';
+                document.querySelector('.label.before').style.opacity = '0';
+                document.querySelector('.label.after').style.opacity = '0';
+            }
+
+            sliderBar.style.top = `${position}%`;
+        }
+
+        document.addEventListener('wheel', (event) => {
+            event.preventDefault();
+
+            position += event.deltaY > 0 ? 2 : -2;
+            position = Math.max(0, Math.min(position, 100));
+            updateClipPath();
+        });
+
+        document.addEventListener('touchstart', (event) => {
+            startY = event.touches[0].clientY;
+        });
+
+        document.addEventListener('touchmove', (event) => {
+            event.preventDefault();
+            let moveY = event.touches[0].clientY;
+            position += (startY - moveY) < 0 ? 2 : -2;
+            position = Math.max(0, Math.min(position, 100));
+            updateClipPath();
+            startY = moveY;
+        });
+
+        updateClipPath();
+    </script>
+</body>
+</html>
