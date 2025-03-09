@@ -69,7 +69,7 @@
         .label {
     position: absolute;
     font-weight: bold;
-    background-color: rgba(0, 0, 0, 0.6);
+    background-color: rgba(0, 0, 0, 0);
     
     border-radius: 5px;
 }
@@ -173,9 +173,9 @@ document.addEventListener('wheel', (event) => {
     event.preventDefault();
 
     if (event.deltaY > 0) {
-        position += 2;
+        position += 1;
     } else {
-        position -= 2;
+        position -= 1;
     }
 
     position = Math.max(0, Math.min(position, 100));
@@ -192,9 +192,9 @@ document.addEventListener('touchmove', (event) => {
     let diff = startY - moveY;
 
     if (diff < 0) {
-        position += 2;
+        position += 1;
     } else {
-        position -= 2;
+        position -= 1;
     }
 
     position = Math.max(0, Math.min(position, 100));
