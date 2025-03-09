@@ -140,65 +140,70 @@
     </div>
 
     <script>
-         let position = 0;
-        let startY = 0;
+let position = 0;
+let startY = 0;
 
-        function updateClipPath() {
-            const image2 = document.querySelector('.image2');
-            const sliderBar = document.querySelector('.slider-bar');
-            const container = document.querySelector('.container');
-            const containerHeight = container.offsetHeight;
+function updateClipPath() {
+    const image2 = document.querySelector('.image2');
+    const sliderBar = document.querySelector('.slider-bar');
+    const beforeLabel = document.querySelector('.label.before');
+    const afterLabel = document.querySelector('.label.after');
+    const container = document.querySelector('.container');
+    const containerHeight = container.offsetHeight;
 
-            image2.style.clipPath = `inset(${position}% 0 0 0)`;
+    image2.style.clipPath = `inset(${position}% 0 0 0)`;
 
-            if (position > 5) {
-                sliderBar.style.opacity = '1';
-                document.querySelector('.label.before').style.opacity = '1';
-                document.querySelector('.label.after').style.opacity = '1';
-            } else {
-                sliderBar.style.opacity = '0';
-                document.querySelector('.label.before').style.opacity = '0';
-                document.querySelector('.label.after').style.opacity = '0';
-            }
+    if (position > 5) {
+        sliderBar.style.opacity = '1';
+        beforeLabel.style.opacity = '1';
+        afterLabel.style.opacity = '1';
+    } else {
+        sliderBar.style.opacity = '0';
+        beforeLabel.style.opacity = '0';
+        afterLabel.style.opacity = '0';
+    }
 
-            sliderBar.style.top = `${position}%`;
-        }
+    sliderBar.style.top = `${position}%`;
 
-        document.addEventListener('wheel', (event) => {
-            event.preventDefault();
+    beforeLabel.style.top = `${position - 5}%`;
+    afterLabel.style.top = `${position + 5}%`;
+}
 
-            if (event.deltaY > 0) {
-                position += 2;
-            } else {
-                position -= 2;
-            }
+document.addEventListener('wheel', (event) => {
+    event.preventDefault();
 
-            position = Math.max(0, Math.min(position, 100));
-            updateClipPath();
-        });
+    if (event.deltaY > 0) {
+        position += 2;
+    } else {
+        position -= 2;
+    }
 
-        document.addEventListener('touchstart', (event) => {
-            startY = event.touches[0].clientY;
-        });
+    position = Math.max(0, Math.min(position, 100));
+    updateClipPath();
+});
 
-        document.addEventListener('touchmove', (event) => {
-            event.preventDefault();
-            let moveY = event.touches[0].clientY;
-            let diff = startY - moveY;
+document.addEventListener('touchstart', (event) => {
+    startY = event.touches[0].clientY;
+});
 
-            if (diff < 0) {  
-                position += 2; // Swipe Down (should reveal more of Before)  
-                    } 
-            else {  
-                position -= 2; // Swipe Up (should reveal more of After)  
-                    }
+document.addEventListener('touchmove', (event) => {
+    event.preventDefault();
+    let moveY = event.touches[0].clientY;
+    let diff = startY - moveY;
 
-            position = Math.max(0, Math.min(position, 100));
-            updateClipPath();
-            startY = moveY;
-        });
+    if (diff < 0) {
+        position += 2;
+    } else {
+        position -= 2;
+    }
 
-        updateClipPath();
+    position = Math.max(0, Math.min(position, 100));
+    updateClipPath();
+    startY = moveY;
+});
+
+updateClipPath();
+         
     </script>
 </body>
 </html>
