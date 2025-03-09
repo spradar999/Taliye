@@ -140,32 +140,60 @@
     </div>
 
     <script>
-        let position = 100;
+         let position = 0;
         let startY = 0;
 
         function updateClipPath() {
             const image2 = document.querySelector('.image2');
             const sliderBar = document.querySelector('.slider-bar');
+            const container = document.querySelector('.container');
+            const containerHeight = container.offsetHeight;
+
             image2.style.clipPath = `inset(${position}% 0 0 0)`;
+
+            if (position > 5) {
+                sliderBar.style.opacity = '1';
+                document.querySelector('.label.before').style.opacity = '1';
+                document.querySelector('.label.after').style.opacity = '1';
+            } else {
+                sliderBar.style.opacity = '0';
+                document.querySelector('.label.before').style.opacity = '0';
+                document.querySelector('.label.after').style.opacity = '0';
+            }
+
             sliderBar.style.top = `${position}%`;
         }
 
-        document.querySelector('.container').addEventListener('wheel', (event) => {
+        document.addEventListener('wheel', (event) => {
             event.preventDefault();
-            position += event.deltaY > 0 ? 5 : -5;
-            position = Math.max(0, Math.min(100, position));
+
+            if (event.deltaY > 0) {
+                position += 2;
+            } else {
+                position -= 2;
+            }
+
+            position = Math.max(0, Math.min(position, 100));
             updateClipPath();
         });
 
-        document.querySelector('.container').addEventListener('touchstart', (event) => {
+        document.addEventListener('touchstart', (event) => {
             startY = event.touches[0].clientY;
         });
 
-        document.querySelector('.container').addEventListener('touchmove', (event) => {
+        document.addEventListener('touchmove', (event) => {
             event.preventDefault();
             let moveY = event.touches[0].clientY;
-            position += startY > moveY ? -3 : 3;
-            position = Math.max(0, Math.min(100, position));
+            let diff = startY - moveY;
+
+            if (diff < 0) {  
+                position += 2; // Swipe Down (should reveal more of Before)  
+                    } 
+            else {  
+                position -= 2; // Swipe Up (should reveal more of After)  
+                    }
+
+            position = Math.max(0, Math.min(position, 100));
             updateClipPath();
             startY = moveY;
         });
