@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Taliye Landslide - Before & After</title>
+    <style>
+
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background-color: #111;
+    color: white;
+	overflow-y: auto; 
+	height: auto; 
+}
+
+        .image-container {
+    position: relative;
+    width: 100%;
+    height: 400px;
+    overflow: hidden;
+}
+
+        .image1, .image2 {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .image2 {
+            clip-path: inset(100% 0 0 0);
+        }
+
+        .slider-bar {
+            position: absolute;
+            width: 100%;
+            height: 4px;
+            background-color: white;
+            cursor: pointer;
+            opacity: 1;
+            z-index: 10;
+        }
+
+        .label {
+            position: absolute;
+            color: white;
+            font-weight: bold;
+            background-color: rgba(0, 0, 0);
+            padding: 5px 10px;
+            margin: 0;
+            border-radius: 5px;
+            font-size: 9px;
+            transform: translateX(-50%);
+            transition: opacity 0.2s ease;
+            left: 25%;
+        }
+
+     
+
+        h3 {
+            color: #ffcc00;
+	    margin: 0;
+        }
+
+        ul {
+            padding-left: 20px;
+            list-style-position: outside;
+        }
+		body {
+    overflow: hidden;
+}
+
+
+
+
+.wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    width: 100%;
+    max-width: 1200px;
+}
+
+.container {
+    width: 100%;
+    background-color: #111;
+    z-index: 10;
+    padding: 10px 0;
+}
+.swipe-text {
+    margin: 0;
+    padding: 0;
+    text-align: center;
+    font-size: 14px;
+}
+.image-container {
+    position: left;
+    width: 100%;
+    height: 400px;
+    overflow: hidden; /* Keeps images fixed */
+}
+.text-content {
+    width: 100%;
+    max-width: 800px;
+    padding: 20px;
+    text-align: justify;
+    word-wrap: break-word;
+    box-sizing: border-box;
+    overflow-y: auto; /* Enable scrolling within text content */
+    max-height: 70vh; /* Allow scrolling inside text area */
+}
+
+/* Mobile-friendly styles */
+@media (max-width: 768px) {
+    .wrapper {
+        height: 100vh; /* Keep full height */
+    }
+
+}
+
+
+       
+    </style>
+</head>
+<body>
+    <div class="wrapper">
+        <div class="container">
+            <h3 class="title">Taliye Landslide</h3>
+	    <h3 class="title">(Raigad, Maharashtra)</h3>
+            <p>ISRO obtained satellite images of this region and made the following observations.</p>
+            <div class="image-container">
+                <img src="taliye_post.jpg" alt="After Landslide" class="image1">
+                <img src="taliye_pre.jpg" alt="Before Landslide" class="image2">
+                <div class="slider-bar"></div>
+                <div class="label before">POST:(Cartosat-2 July 24, 2021)</div>
+                <div class="label after">PRE:(Cartosat-2 July 19, 2021)</div>
+            </div>
+		<p class="swipe-text">(Swipe up or down to see the visualization)</p> <!-- Placed directly below the image -->
+        </div>
+
+        <div class="text-content">
+	    <p><b>In Brief:</b></p>
+            <ul>
+				<li><i>A devastating landslide hit Taliye village in Raigad district, Maharashtra on July 22, 2021</i></li>
+				<li><i>The landslide was triggered by incessant rainfall over the Western Ghats.</i></li>
+                <li><i>Over 84 people lost their lives.</i></li>
+				<li><i>Dozens of houses were completely buried under debris.</i></li>
+				
+			 </ul>	
+		<p>Taliye village is located in Raigad District,Maharashtra. At an elevation of 310 meters above mean sea level, 
+		approximately 150 meters from the back slope of the hill. 
+		A landslide occurred at Taliye village on July 22, 2021, at 8:30 PM due to heavy and continuous rainfall, 
+		which led to water infiltration and slope failure.</p>
+<p>The presence of moderately inclined slopes with thick overburden, a jointed rock mass with relief joints,
+ and small gullies or rills contributed to the conditions that facilitated slope failures under saturation.
+Heavy and continuous rainfall caused water to seep through open cracks and joints, as well as along the rock-overburden interface. 
+This resulted in the saturation of the overburden mass and lubrication at the contact zone between the rock and overburden. 
+When the driving forces exceeded the resisting forces, the oversaturated material failed along the contact plane, exposing fresh rock. 
+The displaced material, combined with a large volume of water, transformed into a debris flow that traveled downslope for approximately 600 meters, 
+devastating the entire Taliye  village in its path. In this tragic event, the entire village of Taliye (Madhliwadi) was engulfed by a massive layer of debris, 
+resulting in the destruction of approximately 42 houses. Reports indicate that a total of 84 people lost their lives. Additionally, the incident led to the loss of 40 cattle. 
+Furthermore, vast agricultural lands suffered significant damage due to the scouring action of water and the deposition of displaced debris. </p>
+           
+		  
+        </div>
+    </div>
+
+    <script>
+        let position = 50; // Start at the middle
+        let startY = 0;
+
+        function updateClipPath() {
+            const image2 = document.querySelector('.image2');
+            const sliderBar = document.querySelector('.slider-bar');
+            const beforeLabel = document.querySelector('.label.before');
+            const afterLabel = document.querySelector('.label.after');
+
+            image2.style.clipPath = `inset(${position}% 0 0 0)`;
+
+            sliderBar.style.top = `${position}%`;
+            beforeLabel.style.top = `${position - 5}%`; // Slightly above slider
+            afterLabel.style.top = `${position + 5}%`; // Slightly below slider
+        }
+
+        document.addEventListener('wheel', (event) => {
+            event.preventDefault();
+
+            if (event.deltaY > 0) {
+                position += 1;
+            } else {
+                position -= 1;
+            }
+
+            position = Math.max(0, Math.min(position, 100));
+            updateClipPath();
+        });
+
+        document.addEventListener('touchstart', (event) => {
+            startY = event.touches[0].clientY;
+        });
+
+        document.addEventListener('touchmove', (event) => {
+            event.preventDefault();
+            let moveY = event.touches[0].clientY;
+            let diff = startY - moveY;
+
+            if (diff < 0) {
+                position += 1;
+            } else {
+                position -= 1;
+            }
+
+            position = Math.max(0, Math.min(position, 100));
+            updateClipPath();
+            startY = moveY;
+        });
+
+        updateClipPath();
+    </script>
+</body>
+</html>
